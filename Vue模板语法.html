@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+
+<!-- VUE模板语法
+ 1、如何理解前端渲染？  把数据填充到HTML标签中  
+    模板+数据 ------》前端渲染-------》静态HTML内容
+ 前端渲染方式： 逐步的规范了开发语法格式 
+ 1、原生js拼接字符串
+ 2、使用前端模板引擎
+ 3、使用vue特有的模板语法
+ 
+ 模板语法：
+  1、插值表达式
+  问题：插值表达式存在的问题："闪动"，如何解决该问题使用v-loak指令，解决该问题的原理：先隐藏，替换好值之后在显示最终的值
+  背后原理：先通过样式隐藏内容，然后在内存中进行值的替换，替换好之后再显示最终的结果
+  
+  
+  2、指令
+     什么是指令： 
+	     1、什么是自定义属性
+         2、指令的本质就是自定义属性
+	     3、指令的格式：以v-开始（v-cloak）
+		 
+		 1、v-cloak指令用法：
+			 这个指令保持在元素上直到关联实例结束编译。
+			 和 CSS 规则如 [v-cloak] { display: none } 一起用时，
+			 这个指令可以隐藏未编译的 Mustache 标签直到实例准备完毕。
+			 1、提供样式
+			 [v-cloak]{
+				 display:none;
+			 }
+			 2、在插值表达式所在的标签中添加v-cloak指令
+		2、 v-text 填充纯文本 相比插值表达式更加简洁 没有闪动问题
+		3、 v-html 填充HTML片段 
+			  1、存在安全问题
+			  2、本网站内部数据可以使用，来自第三方的数据不可以用
+		4、 v-pre 填充原始信息
+			   1、显示原始信息，跳过编译过程（分析编译过程）
+		5、v-model 双向数据绑定分析	   
+		  <input type='text' v-model='unmae'/>
+  3、事件绑定
+     vue 如何处理时间
+	     1、v-on指令用法 <input type="button" v-on:click='num++'/>
+		 2、v-on简写形式 <input type="button" @click='num++'/>
+  4、属性绑定
+     
+  5、样式绑定
+  6、分支循环结构
+  
+  数据响应式：
+	如何理解响应式：
+		1、html5中的响应式（屏幕尺寸的变化导致样式的变化）
+		2、数据的响应式（数据的变化导致页面内容的变化）
+	什么是数据绑定
+		1、数据绑定：将数据填充到标签中
+	v-once 只编译一次
+	 1、显示内容之后不再具有响应式功能
+	 
+	 双向数据绑定
+	  什么是双向数据绑定?  
+	  MVVM设计思想                               ViewModel
+	  1、M（mode）                View  ------------》DOM Listeners ----------》Model
+	  2、V（view）                     《-------------Data Bindings《----------          
+	  3、VM(view -model)         DOM               VUE          plain javascript objects
+ -->
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			[v-cloak]{display: none;}
+			
+		</style>
+	</head>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<body>
+		<div id="app">
+			<hr />
+			插值表达式
+			<h1  v-cloak>{{msg}}</h1>
+			
+			<hr />
+			v-text文本插入
+			<h2 v-text="msg"></h2>
+			<hr>
+			v-html html片段插入 不安全存在xss攻击
+			<div v-html="msg2"> </div>
+			<hr >
+			v-pre 填充原始信息 跳过编译过程
+			<h1 v-pre>{{msg}}</h1>
+			
+			<hr >
+			v-once 只编译一次 应用场景 ：如果显示的信息后续不需要再修改，可以使用v-once这样可以提供性能
+			<h1 v-once>{{once}}</h1>
+			<h2>{{once}}</h2>
+			
+			<hr >
+			<h1 v-text="uname"></h1>
+			<input type="text" v-model="uname" />
+		</div>
+		<script type="text/javascript">
+			var vm = new Vue({
+				el:'#app',
+				data:{
+					msg:'kkiscool',
+					msg2:'<h1>HTML片段</h1>',
+					once:'就一次',
+					uname:'unmae'
+				}
+			})
+		</script>
+	</body>
+</html>
